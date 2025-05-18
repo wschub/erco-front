@@ -44,7 +44,13 @@ const Login = () => {
       <div className="w-full max-w-md p-4">
         <Card className="border-none shadow-lg">
           <CardHeader className="space-y-1 text-center">
-            <CardTitle className="text-3xl font-bold tracking-tight">Analytics Dashboard</CardTitle>
+            <div className="flex justify-center">
+              <img 
+                src="https://erco.energy/_next/static/media/logo-group.8bd79449.svg" 
+                alt="ERCO Energy Logo" 
+                className="h-12" 
+              />
+            </div>
             <CardDescription>Enter your credentials to access your dashboard</CardDescription>
           </CardHeader>
           <CardContent>
@@ -80,7 +86,7 @@ const Login = () => {
               </div>
               <Button 
                 type="submit" 
-                className="w-full bg-indigo-600 hover:bg-indigo-700" 
+                className="w-full" 
                 disabled={isLoading}
               >
                 {isLoading ? (
