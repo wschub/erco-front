@@ -12,20 +12,25 @@ interface AuthContextType {
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
+  token: string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   
   useEffect(() => {
     // Check if user is already logged in via localStorage
     const storedUser = localStorage.getItem("dashboard_user");
-    if (storedUser) {
+    const storedToken = localStorage.getItem("auth_token");
+    
+    if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
+      setToken(storedToken);
     }
     setIsLoading(false);
   }, []);
@@ -33,37 +38,58 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (username: string, password: string): Promise<void> => {
     setIsLoading(true);
     
-    // Mock login - in a real app, this would be an API call
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // Mock validation - in production this would be a real authentication
-        if (username && password.length >= 6) {
-          const user = {
-            username,
-            avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${username}`
-          };
-          
-          setUser(user);
-          localStorage.setItem("dashboard_user", JSON.stringify(user));
-          setIsLoading(false);
-          navigate("/dashboard");
-          resolve();
-        } else {
-          setIsLoading(false);
-          reject(new Error("Invalid credentials. Password must be at least 6 characters."));
-        }
-      }, 1000); // Simulate network delay
-    });
+    try {
+      // Use the specified API endpoint
+      const response = await fetch("http://localhost:4000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Login failed");
+      }
+      
+      const data = await response.json();
+      const authToken = data.token;
+      
+      // Save token to localStorage
+      localStorage.setItem("auth_token", authToken);
+      
+      // Create user object
+      const userInfo = {
+        username,
+        avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${username}`
+      };
+      
+      // Set state and save to localStorage
+      setUser(userInfo);
+      setToken(authToken);
+      localStorage.setItem("dashboard_user", JSON.stringify(userInfo));
+      
+      // Redirect to dashboard
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Login error:", error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   const logout = () => {
     setUser(null);
+    setToken(null);
     localStorage.removeItem("dashboard_user");
+    localStorage.removeItem("auth_token");
     navigate("/");
   };
   
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, logout, isLoading, token }}>
       {children}
     </AuthContext.Provider>
   );
