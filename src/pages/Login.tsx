@@ -44,14 +44,13 @@ const Login = () => {
       <div className="w-full max-w-md p-4">
         <Card className="border-none shadow-lg">
           <CardHeader className="space-y-1 text-center">
-            <div className="flex justify-center">
+            <div className="flex justify-center items-center">
               <img 
                 src="https://erco.energy/_next/static/media/logo-group.8bd79449.svg" 
                 alt="ERCO Energy Logo" 
                 className="h-12" 
               />
             </div>
-            <CardDescription>Enter your credentials to access your dashboard</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
