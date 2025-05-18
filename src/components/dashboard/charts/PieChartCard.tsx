@@ -10,7 +10,7 @@ const data = [
   { name: "On Hold", value: 120 },
 ];
 
-const COLORS = ["#6366f1", "#818cf8", "#c7d2fe", "#e0e7ff"];
+const COLORS = ["#45a824", "#9ecc14", "#b8e986", "#d9f0c0"];
 
 const PieChartCard: React.FC = () => {
   return (

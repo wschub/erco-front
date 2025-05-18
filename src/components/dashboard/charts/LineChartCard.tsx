@@ -34,8 +34,8 @@ const LineChartCard: React.FC = () => {
                 boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)"
               }}
             />
-            <Line type="monotone" dataKey="visits" stroke="#6366f1" strokeWidth={2} activeDot={{ r: 6 }} />
-            <Line type="monotone" dataKey="conversions" stroke="#06b6d4" strokeWidth={2} />
+            <Line type="monotone" dataKey="visits" stroke="#45a824" strokeWidth={2} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="conversions" stroke="#9ecc14" strokeWidth={2} />
           </LineChart>
         </ResponsiveContainer>
       </CardContent>

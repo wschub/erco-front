@@ -36,7 +36,7 @@ const OverviewChart: React.FC = () => {
             />
             <Bar 
               dataKey="value" 
-              fill="#6366f1" 
+              fill="#45a824" 
               radius={[4, 4, 0, 0]} 
             />
           </BarChart>

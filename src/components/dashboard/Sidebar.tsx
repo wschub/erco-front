@@ -56,7 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
     >
       <div className="flex h-16 items-center justify-between px-4 border-b">
         {!collapsed && (
-          <span className="text-xl font-semibold text-indigo-600">Analytics</span>
+          <span className="text-xl font-semibold text-primary">Analytics</span>
         )}
         <Button 
           variant="ghost" 
@@ -76,7 +76,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
             className={({ isActive }) =>
               cn(
                 "flex items-center gap-3 rounded-md px-3 py-2 transition-all hover:bg-accent",
-                isActive ? "bg-indigo-100 text-indigo-900 font-medium" : "text-muted-foreground",
+                isActive ? "bg-green-100 text-primary font-medium" : "text-muted-foreground",
                 collapsed && "justify-center px-0"
               )
             }
