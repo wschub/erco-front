@@ -66,16 +66,25 @@ const Offers = () => {
       console.log(offer);
       const token = localStorage.getItem("auth_token"); // o como guardes el token
 
-      const res = await fetch(`${URL_SERVICE}/api/transactions`, {
+      const payload = {
+      offerId: Number(offer.id),
+      sellerId:Number(offer.sellerId),
+       qtykwh: parseFloat(offer.qtykwh),
+      priceKwh: parseFloat(offer.priceKwh),
+    };
+
+       console.log('payload: ',payload);
+
+      const res = await fetch(`http://localhost:4000/api/transactions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(offer),
+        body: JSON.stringify(payload),
       });
 
-      if (!res.ok) throw new Error("Error al realizar la transacción");
+      if (!res.ok) throw new Error("Error de respuesta al realizar la transacción");
 
       const data = await res.json();
       console.log("Transacción exitosa:", data);
