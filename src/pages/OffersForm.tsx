@@ -23,8 +23,15 @@ export const OffersForm = () => {
        
       const token = localStorage.getItem("auth_token");
 
+         let dateIn = new Date(form.startTime).toISOString();
+         let dateOut = new Date(form.endTime).toISOString();
+
+         console.log(dateIn);
+
       const payload = {
         ...form,
+        qtykwh: Number(form.qtykwh),
+        priceKwh: Number(form.priceKwh),
         startTime: new Date(form.startTime).toISOString(),
         endTime: new Date(form.endTime).toISOString(),
         };
