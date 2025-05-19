@@ -9,6 +9,8 @@ export type Transaction = {
   offerId: number
   buyerId: number
   sellerId: number
+  qtykwh: number
+  priceKwh: number
   totalPrice: number
   createdAt: string
   //status: "pending" | "processing" | "success" | "failed"
@@ -29,6 +31,14 @@ export const columns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "sellerId",
     header: "Vendedor",
+  },
+  {
+    accessorKey: "qtykwh",
+    header: "Cant. Kwh",
+  },
+  {
+    accessorKey: "priceKwh",
+    header: "Precio Unidad",
   },
   {
     accessorKey: "totalPrice",

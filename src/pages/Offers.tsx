@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Offer, columns } from "../components/offers/columns"
 import { DataTable } from "../components/offers/data-table"
 import socket from "../lib/socket";
@@ -9,6 +10,8 @@ import { getToken } from "../lib/auth"; // función utilitaria para obtener toke
 import { jwtDecode } from "jwt-decode";
 
 const Offers = () => {
+   
+   const navigate = useNavigate(); 
 
    interface TokenPayload {
   role: string;
@@ -109,6 +112,7 @@ const Offers = () => {
       const data = await res.json();
       console.log("Transacción exitosa:", data);
       alert("Transacción realizada con éxito");
+      navigate("/dashboard/transactions"); 
     } catch (error) {
       console.error(error);
       alert("Error al realizar la transacción");
