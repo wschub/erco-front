@@ -6,10 +6,17 @@ import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
 import { URL_SERVICE } from "../lib/constants"; // si estás usando variable global
 import { getToken } from "../lib/auth"; // función utilitaria para obtener token del localStorage
+import { jwtDecode } from "jwt-decode";
 
 const Offers = () => {
+
+   interface TokenPayload {
+  role: string;
+  // otros campos si los necesitas
+}
    
   const [offers, setOffers] = useState<any[]>([]);
+   const [role, setRole] = useState<string>("");
 
   // 1. Cargar datos iniciales via GET
   useEffect(() => {
@@ -17,6 +24,19 @@ const Offers = () => {
       try {
       
         const token = getToken();
+        let role = "";
+        
+        if (token) {
+          try {
+            const decoded = jwtDecode<TokenPayload>(token);
+            setRole(decoded.role);
+          } catch (e) {
+            console.error("Token inválido", e);
+          }
+        }
+        
+
+
         const response = await fetch(`${URL_SERVICE}/api/offers`, {
           headers: {
             "Content-Type": "application/json",
@@ -99,11 +119,14 @@ const Offers = () => {
     <div>
       <h1 className="text-xl font-semibold mb-4">Ofertas Disponibles</h1>
       <div className="flex justify-end mb-4">
-        <NavLink to="/dashboard/newOffer">
-          <Button variant="default">
-            Crear Oferta
-          </Button>
-        </NavLink>
+        
+         <>
+    {role === "seller" && (
+      <NavLink to="/dashboard/newOffer">
+        <Button variant="default">Crear Oferta</Button>
+      </NavLink>
+    )}
+  </>
       </div>
 
       <div className="space-y-2">
@@ -119,11 +142,17 @@ const Offers = () => {
             <p><strong>F. Fin:</strong> ${offer.endTime}</p>
             
             <div className="flex justify-end mt-2">
-    <button className="bg-primary text-gray-800 font-semibold py-2 px-4 rounded"
-     onClick={() => handleBuy(offer)}>
-      COMPRAR AHORA
-    </button>
-  </div>
+              <>
+    {role === "buyer" && (
+     <button className="bg-primary text-gray-800 font-semibold py-2 px-4 rounded"
+            onClick={() => handleBuy(offer)}>
+              COMPRAR AHORA
+            </button>
+    )}
+  </>
+
+            
+          </div>
               
             
           </div>
