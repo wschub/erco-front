@@ -3,6 +3,8 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+
 import { 
   LayoutDashboard, 
   BarChart, 
@@ -10,42 +12,68 @@ import {
   LineChart, 
   Settings, 
   Menu,
+  Users,
+  BadgeDollarSign,
+  UtilityPole,
+  
   ChevronLeft
 } from "lucide-react";
+import Offers from "@/pages/Offers";
 
 interface SidebarProps {
   collapsed: boolean;
   setCollapsed: (collapsed: boolean) => void;
 }
 
+interface TokenPayload {
+  role: string;
+  // otros campos si los necesitas
+}
+
 const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
+
+  const token = localStorage.getItem("auth_token");
+let role = "";
+
+if (token) {
+  try {
+    const decoded = jwtDecode<TokenPayload>(token);
+    role = decoded.role;
+  } catch (e) {
+    console.error("Token inválido", e);
+  }
+}
+
+
   const menuItems = [
     {
       title: "Dashboard",
       icon: <LayoutDashboard size={20} />,
       path: "/dashboard",
+      roles: ["admin", "buyer","seller"],
     },
     {
-      title: "Bar Charts",
-      icon: <BarChart size={20} />,
-      path: "/dashboard/bar-charts",
+      title: "Usuarios",
+      icon: <Users size={20} />,
+      path: "/dashboard/users",
+      roles: ["admin"],
     },
     {
-      title: "Pie Charts",
-      icon: <PieChart size={20} />,
-      path: "/dashboard/pie-charts",
+      title: "Ofertas",
+      icon: <UtilityPole size={20} />,
+      path: "/dashboard/offers",
+      roles: ["admin","buyer","seller"],
     },
     {
-      title: "Line Charts",
-      icon: <LineChart size={20} />,
-      path: "/dashboard/line-charts",
+      title: "Transacciones",
+      icon: <BadgeDollarSign size={20} />,
+      path: "/dashboard/transactions",
+      roles: ["admin","buyer","seller"],
     },
-    {
-      title: "Settings",
-      icon: <Settings size={20} />,
-      path: "/dashboard/settings",
-    },
+   
   ];
+  const filteredItems = menuItems.filter((item) => item.roles.includes(role));
+
 
   return (
     <div 
@@ -56,7 +84,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
     >
       <div className="flex h-16 items-center justify-between px-4 border-b">
         {!collapsed && (
-          <span className="text-xl font-semibold text-primary">Analytics</span>
+          <span className="text-xl font-semibold text-primary">ERCO</span>
         )}
         <Button 
           variant="ghost" 
@@ -69,7 +97,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
       </div>
       
       <div className="px-2 py-4 space-y-2">
-        {menuItems.map((item, index) => (
+        {/* {menuItems.map((item, index) => (* */}
+        {filteredItems.map((item, index) => (  
           <NavLink
             key={index}
             to={item.path}

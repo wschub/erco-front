@@ -3,13 +3,13 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface User {
-  username: string;
+  email: string;
   avatar?: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (username: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
   token: string | null;
@@ -35,7 +35,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(false);
   }, []);
   
-  const login = async (username: string, password: string): Promise<void> => {
+  const login = async (email: string, password: string): Promise<void> => {
     setIsLoading(true);
     
     try {
@@ -45,7 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
       
       if (!response.ok) {
@@ -54,15 +54,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       
       const data = await response.json();
-      const authToken = data.token;
+      const authToken = data;
+
+      console.log(authToken);
       
       // Save token to localStorage
       localStorage.setItem("auth_token", authToken);
       
       // Create user object
       const userInfo = {
-        username,
-        avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${username}`
+        email,
+        avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${email}`
       };
       
       // Set state and save to localStorage

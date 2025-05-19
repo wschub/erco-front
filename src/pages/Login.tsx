@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login, isLoading, user } = useAuth();
   const { toast } = useToast();
@@ -25,7 +25,7 @@ const Login = () => {
     e.preventDefault();
     
     try {
-      await login(username, password);
+      await login(email, password);
       toast({
         title: "Success!",
         description: "You've successfully logged in.",
@@ -55,16 +55,16 @@ const Login = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <label htmlFor="username" className="text-sm font-medium leading-none">
-                  Username
+                <label htmlFor="email" className="text-sm font-medium leading-none">
+                  Email
                 </label>
                 <Input
-                  id="username"
-                  placeholder="Enter your username"
-                  value={username}
+                  id="email"
+                  placeholder="Enter your email"
+                  value={email}
                   onChange={(e) => setUsername(e.target.value)}
                   required
-                  autoComplete="username"
+                  autoComplete="email"
                   className="w-full"
                 />
               </div>

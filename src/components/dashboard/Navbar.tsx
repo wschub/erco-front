@@ -47,17 +47,17 @@ const Navbar: React.FC = () => {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
               <Avatar className="h-10 w-10">
-                <AvatarImage src={user?.avatar} alt={user?.username || "User"} />
-                <AvatarFallback>{user ? getInitials(user.username) : "U"}</AvatarFallback>
+                <AvatarImage src={user?.avatar} alt={user?.email || "User"} />
+                <AvatarFallback>{user ? getInitials(user.email) : "U"}</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuLabel>
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{user?.username}</p>
+                <p className="text-sm font-medium leading-none">{user?.email}</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  {user?.username?.toLowerCase()}@example.com
+                  {user?.email?.toLowerCase()}
                 </p>
               </div>
             </DropdownMenuLabel>
