@@ -13,14 +13,14 @@ const Dashboard: React.FC = () => {
       
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         <StatsCard
-          title="Total Revenue"
+          title="Ingresos Totales"
           value="$45,231.89"
-          description="Monthly revenue"
+          description="Ingresos Mensuales"
           icon={<BarChart className="h-full w-full" />}
           trend={{ value: "20.1%", positive: true }}
         />
         <StatsCard
-          title="Active Users"
+          title="Ofertas Activas"
           value="2,420"
           description="Daily active users"
           icon={<Users className="h-full w-full" />}
