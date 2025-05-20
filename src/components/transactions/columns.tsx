@@ -7,14 +7,20 @@ import { ColumnDef } from "@tanstack/react-table"
 export type Transaction = {
   id: number
   offerId: number
-  buyerId: number
+  buyerId: string
   sellerId: number
   qtykwh: number
   priceKwh: number
   totalPrice: number
   createdAt: string
-  //status: "pending" | "processing" | "success" | "failed"
-  //email: string
+  buyer: {
+    full_name: string
+    surname: string
+  }
+  seller: {
+    full_name: string
+    surname: string
+  }
 }
 
 
@@ -25,24 +31,44 @@ export const columns: ColumnDef<Transaction>[] = [
     header: "Oferta",
   },
   {
-    accessorKey: "buyerId",
     header: "Comprador",
+    accessorKey: "buyer",
+    cell: ({ row }) => {
+    const buyer = row.original.buyer;
+    return `${buyer?.full_name ?? ''} ${buyer?.surname ?? ''}`;
+  },
+   
   },
   {
-    accessorKey: "sellerId",
     header: "Vendedor",
+    accessorKey: "seller",
+    cell: ({ row }) => {
+    const seller = row.original.seller;
+    return `${seller?.full_name ?? ''} ${seller?.surname ?? ''}`;
+  },
+    
   },
   {
     accessorKey: "qtykwh",
     header: "Cant. Kwh",
   },
   {
+    header: "Precio Kwh",
     accessorKey: "priceKwh",
-    header: "Precio Unidad",
+     cell: ({ row }) => {
+    const value = row.original.priceKwh;
+    return `$ ${value.toLocaleString("es-CO")}`;
+  },
+    
   },
   {
+    header: "Total",
     accessorKey: "totalPrice",
-    header: "Total Compra",
+    cell: ({ row }) => {
+    const value = row.original.totalPrice;
+    return `$ ${value.toLocaleString("es-CO")}`;
+  },
+
   },
   {
     accessorKey: "createdAt",

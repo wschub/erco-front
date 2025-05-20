@@ -5,9 +5,9 @@ import { DataTable } from "../components/offers/data-table"
 import socket from "../lib/socket";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
-import { URL_SERVICE } from "../lib/constants"; // si estás usando variable global
-import { getToken } from "../lib/auth"; // función utilitaria para obtener token del localStorage
 import { jwtDecode } from "jwt-decode";
+import { URL_SERVICE } from "../lib/constants"; 
+import { getToken } from "../lib/auth"; 
 
 const Offers = () => {
    
@@ -15,13 +15,12 @@ const Offers = () => {
 
    interface TokenPayload {
   role: string;
-  // otros campos si los necesitas
 }
    
   const [offers, setOffers] = useState<any[]>([]);
    const [role, setRole] = useState<string>("");
 
-  // 1. Cargar datos iniciales via GET
+ 
   useEffect(() => {
     const fetchOffers = async () => {
       try {
@@ -58,7 +57,7 @@ const Offers = () => {
     fetchOffers();
   }, []);
 
-  // 2. Socket para escuchar nuevas ofertas
+  //  Socket 
   useEffect(() => {
     const handleNewOffer = (newOffer: any) => {
       setOffers((prevOffers) => {
@@ -69,7 +68,7 @@ const Offers = () => {
             offer.id === newOffer.id ? newOffer : offer
           );
         } else {
-          // Si no existe, agregarla
+         
           
           return [...prevOffers, newOffer];
         }
@@ -87,7 +86,7 @@ const Offers = () => {
   const handleBuy = async (offer: any) => {
     try {
       console.log(offer);
-      const token = localStorage.getItem("auth_token"); // o como guardes el token
+      const token = localStorage.getItem("auth_token"); 
 
       const payload = {
       offerId: Number(offer.id),
@@ -140,7 +139,8 @@ const Offers = () => {
           <div key={offer.id || idx} className="border p-4 ">
             <p><strong>Cant. Kwh:</strong> {offer.qtykwh}</p>
             <p className="text-lg font-bold">
-  <strong>Precio Kwh:</strong> <span className="text-primary">$ {offer.priceKwh}</span>
+  <strong>Precio Kwh:</strong> <span className="text-primary">
+    $ {offer.priceKwh.toLocaleString("es-CO")}</span>
 </p>
             <p><strong>F. Inicio:</strong> ${offer.startTime}</p>
             <p><strong>F. Fin:</strong> ${offer.endTime}</p>

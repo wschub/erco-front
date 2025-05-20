@@ -32,6 +32,7 @@ export const Transactions = () => {
         }
 
         const result = await response.json();
+        console.log('result: ',result);
         setData(result);
       } catch (error) {
         console.error("Error fetching transactions:", error);
