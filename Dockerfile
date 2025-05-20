@@ -6,7 +6,8 @@ WORKDIR /app
 
 # Copy project files
 RUN rm -v /usr/share/nginx/html/index.html
-COPY ./build /usr/share/nginx/html
+COPY ./dist /usr/share/nginx/html
+
 
 # expose port and define CMD
 EXPOSE 80
